@@ -1,0 +1,33 @@
+name: Build Android APK
+on:
+  workflow_dispatch:
+  push: { branches: [ "main" ] }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - name: Ensure flutter project
+        run: |
+          if [ ! -d app ]; then
+            flutter create app --org com.ambi.vision --project-name ambivision_app
+          fi
+      - name: Get packages
+        working-directory: app
+        run: flutter pub get
+      - name: Build debug APK
+        working-directory: app
+        run: flutter build apk --debug
+      - name: Collect APK
+        working-directory: app
+        run: |
+          APK=$(find build/app/outputs/flutter-apk -name '*.apk' -type f | head -n1)
+          cp "$APK" "${GITHUB_WORKSPACE}/ambivision-app-debug.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ambivision-app-debug
+          path: ambivision-app-debug.apk
