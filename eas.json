@@ -1,9 +1,4 @@
 {
-  "expo": {
-    "name": "Ambi Vision",
-    "slug": "ambi-vision",
-    "owner": "khalvf",
-    "android": { "package": "com.floweuropa25.ambivision" },
-    "extra": { "eas": { "projectId": "ed592a24-2b5e-48dc-95f6-d8ceadcac97a" } }
-  }
+  "cli": { "version": ">= 8.0.0" },
+  "build": { "apk": { "android": { "buildType": "apk" } } }
 }
