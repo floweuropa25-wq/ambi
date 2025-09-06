@@ -3,10 +3,10 @@
     "name": "Ambi Vision",
     "slug": "ambi-vision",
     "scheme": "ambi",
-    "owner": "khaly_quintero",
+    "owner": "khalyquintero",
     "android": {
-      "package": "com.tuorg.ambivision",
-      "versionCode": 1
+      "package": "com.floweuropa25.ambivision",
+      "versionCode": 3
     },
     "extra": {
       "eas": {
