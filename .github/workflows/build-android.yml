@@ -7,23 +7,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+
       - run: npm install
+
       - uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          expo-cache: true
-          eas-cache: true
+
       - id: eas
         run: |
-          JSON=$(eas build -p android --profile apk --non-interactive --wait --json)
+          JSON=$(npx eas-cli build -p android --profile apk --non-interactive --wait --json)
           echo "$JSON" > build.json
           URL=$(node -e "const j=require('./build.json'); const a=Array.isArray(j)?j[0]:j; console.log(a?.artifacts?.buildUrl||'');")
           echo "url=$URL" >> "$GITHUB_OUTPUT"
+
       - run: curl -L "${{ steps.eas.outputs.url }}" -o ambi-vision.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: ambi-vision-apk
