@@ -1,33 +1,26 @@
-name: Build Android APK
-on:
-  workflow_dispatch:
-  push: { branches: [ "main" ] }
+name: Build APK
+on: { workflow_dispatch: {} }
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: "17" }
-      - uses: subosito/flutter-action@v2
-        with: { channel: stable }
-      - name: Ensure flutter project
-        run: |
-          if [ ! -d app ]; then
-            flutter create app --org com.ambi.vision --project-name ambivision_app
-          fi
-      - name: Get packages
-        working-directory: app
-        run: flutter pub get
-      - name: Build debug APK
-        working-directory: app
-        run: flutter build apk --debug
-      - name: Collect APK
-        working-directory: app
-        run: |
-          APK=$(find build/app/outputs/flutter-apk -name '*.apk' -type f | head -n1)
-          cp "$APK" "${GITHUB_WORKSPACE}/ambivision-app-debug.apk"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18 }
+      - run: npm ci || npm install
+      - uses: expo/expo-github-action@v8
         with:
-          name: ambivision-app-debug
-          path: ambivision-app-debug.apk
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
+          eas-cache: true
+      - id: eas
+        run: |
+          JSON=$(eas build -p android --profile apk --non-interactive --wait --json)
+          echo "$JSON" > build.json
+          URL=$(node -e "const j=require('./build.json'); const a=Array.isArray(j)?j[0]:j; console.log(a?.artifacts?.buildUrl||'');")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+      - run: curl -L "${{ steps.eas.outputs.url }}" -o ambi-vision.apk
+      - uses: actions/upload-artifact@v4
+        with: { name: ambi-vision-apk, path: ambi-vision.apk }
