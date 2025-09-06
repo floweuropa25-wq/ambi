@@ -4,8 +4,8 @@
     "slug": "ambi-vision",
     "scheme": "ambi",
     "android": {
-      "package": "com.tuorg.ambivision",
-      "versionCode": 1
+      "package": "com.floweuropa25.ambivision",
+      "versionCode": 2
     }
   }
 }
