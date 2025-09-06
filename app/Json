@@ -3,6 +3,7 @@
     "name": "Ambi Vision",
     "slug": "ambi-vision",
     "scheme": "ambi",
+    "owner": "khalyquintero",
     "android": {
       "package": "com.tuorg.ambivision",
       "versionCode": 1
