@@ -2,16 +2,9 @@
   "expo": {
     "name": "Ambi Vision",
     "slug": "ambi-vision",
-    "scheme": "ambi",
-    "owner": "khalyquintero",
+    "version": "1.0.0",
     "android": {
-      "package": "com.floweuropa25.ambivision",
-      "versionCode": 3
-    },
-    "extra": {
-      "eas": {
-        "projectId": "6435eed4-a31f-4a84-8c69-0ef7b6966ffa"
-      }
+      "package": "com.floweuropa25.ambivision"
     }
   }
 }
