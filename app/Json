@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "name": "Ambi Vision",
+    "slug": "ambi-vision",
+    "scheme": "ambi",
+    "android": { "package": "com.tuorg.ambivision", "versionCode": 1 }
+  }
+}
