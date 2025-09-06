@@ -1,5 +1,6 @@
 name: Build APK
-on: { workflow_dispatch: {} }
+on:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -7,7 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 18 }
+        with:
+          node-version: 18
       - run: npm ci || npm install
       - uses: expo/expo-github-action@v8
         with:
@@ -23,4 +25,6 @@ jobs:
           echo "url=$URL" >> "$GITHUB_OUTPUT"
       - run: curl -L "${{ steps.eas.outputs.url }}" -o ambi-vision.apk
       - uses: actions/upload-artifact@v4
-        with: { name: ambi-vision-apk, path: ambi-vision.apk }
+        with:
+          name: ambi-vision-apk
+          path: ambi-vision.apk
